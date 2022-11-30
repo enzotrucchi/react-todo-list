@@ -1,6 +1,8 @@
 import { useState } from "react";
 import Todo from "./todo";
 
+import "./todoApp.css";
+
 export default function TodoApp() {
 	const [title, setTitle] = useState("");
 	const [todos, setTodos] = useState([]);
@@ -16,6 +18,10 @@ export default function TodoApp() {
 
 	function handleSubmit(e) {
 		e.preventDefault();
+
+		if (!title) {
+			return;
+		}
 
 		const newTodo = {
 			id: crypto.randomUUID(),
@@ -35,6 +41,12 @@ export default function TodoApp() {
 		setTodos(temp);
 	}
 
+	function handleDelete(id) {
+		const temp = todos.filter((x) => x.id !== id);
+
+		setTodos(temp);
+	}
+
 	return (
 		<div className="todoContainer">
 			<form className="todoCreateForm" onSubmit={handleSubmit}>
@@ -45,13 +57,16 @@ export default function TodoApp() {
 					type="submit"
 					value="Add"
 				/>
-
-				{title}
 			</form>
 
 			<div className="todosContainer">
 				{todos.map((todo) => (
-					<Todo key={todo.id} item={todo} onUpdate={handleUpdate} />
+					<Todo
+						key={todo.id}
+						item={todo}
+						onUpdate={handleUpdate}
+						onDelete={handleDelete}
+					/>
 				))}
 			</div>
 		</div>

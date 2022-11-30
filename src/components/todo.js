@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 
-const Todo = ({ item, onUpdate }) => {
+const Todo = ({ item, onUpdate, onDelete }) => {
 	const [isEdit, setIsEdit] = useState(false);
 	const [newValue, setNewValue] = useState(item.title);
 
@@ -39,9 +39,17 @@ const Todo = ({ item, onUpdate }) => {
 	function TodoElement() {
 		return (
 			<div className="todoInfo">
-				{item.title}
-				<button onClick={() => setIsEdit(true)}>Edit</button>
-				<button>Delete</button>
+				<span className="todoTitle">{item.title}</span>
+
+				<button className="button" onClick={() => setIsEdit(true)}>
+					Edit
+				</button>
+				<button
+					className="button buttonDelete"
+					onClick={(e) => onDelete(item.id)}
+				>
+					Delete
+				</button>
 			</div>
 		);
 	}
